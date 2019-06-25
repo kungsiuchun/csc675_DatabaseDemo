@@ -1,16 +1,6 @@
 <html lang="en">
 <head>
     <meta charset="utf8"/>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140295483-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-140295483-1');
-    </script>
-
     <title>{% block title %}{% endblock title %}</title>
     {% block stylesheets %}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
@@ -20,6 +10,11 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/my-styles.css">
     <link rel="stylesheet" href="../fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="../fonts/icomoon/style.css">
+    <!--<link rel="stylesheet" type="text/css" href="../styles/main_styles.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="../styles/blog.css">-->
+    <link rel="stylesheet" href="../plugins/font-awesome-4.7.0/css/font-awesome.css">
+
     {% endblock stylesheets %}
 
     <!-- Google map api styling -->
@@ -27,11 +22,11 @@
             /* Always set the map height explicitly to define the size of the div
              * element that contains the map. */
             #map {
-              height: 325px;
+              height: 100%;
             }
             /* Optional: Makes the sample page fill the window. */
             html, body {
-              height: 400px;
+              height: 350px;
               margin: 0;
               padding: 0;
             }

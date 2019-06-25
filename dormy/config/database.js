@@ -7,14 +7,16 @@ const opts = {
     }
 };
 const pgp = require('pg-promise')(opts);
+const db = pgp('postgres://dormyuser:@localhost:5432/csc675');
+
 const db = pgp(
     {
         user: 'csc648',
-        host: 'dormydb.c07v9tfwathm.us-west-1.rds.amazonaws.com', // server name or IP address;
+        host: 'dormydb.c9dmsmsbcumm.us-west-1.rds.amazonaws.com',
         port: 5432,
         database: 'dormyDB',
         user: 'csc648',
-        password: 'password'
+        password: 'P305kscc'
     }
 );
 

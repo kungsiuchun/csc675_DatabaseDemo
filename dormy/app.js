@@ -46,15 +46,16 @@ app.use(passport.session());
 
 // routes
 app.get('/', (req, res) => {
-    db.any(`SELECT * FROM listings WHERE approved = 'true' ORDER BY id DESC`)
+    db.any(`SELECT * FROM customer ORDER BY customerid DESC`)
     .then(data => res.render('index', {
-        listings: data
+        customer: data,
+        qCount: data.length
     }))
     .catch(() => createError(500));
 });
-app.use('/account', accountRouter);
+// app.use('/account', accountRouter);
 app.use('/listings', listingRouter);
-app.use('/admin', adminRouter);
+// app.use('/admin', adminRouter);
 
 // if it made it here then an error occurred, throw 500 error
 app.use((req, res, next) => next(createError(500)));

@@ -5,66 +5,47 @@ module.exports.list = (req, res) => {
     // express populates value in req.query from URL; `/listings?type=TYPE&query=SEARCH_QUERY`
     let type = req.query.type;
     let query = req.query.query;
-    let filter = req.query.filter;
-    let filterAS = req.query.filterAS;
-
-    let q = `SELECT * FROM listings WHERE approved='true'`;
-
+    let q = `SELECT * FROM product`;
     if (type && query) {
-        q = `SELECT * FROM listings WHERE type = '${type}' AND approved='true' AND (LOWER(title) LIKE '%${query}%' OR LOWER(address) LIKE '%${query}%')`;
-    } else if (!type && query ) {
-        q = `SELECT * FROM listings WHERE approved='true' AND LOWER(title) LIKE '%${query}%' OR LOWER(address) LIKE '%${query}%'`;
-    } else if (type && !query ) {
-        q = `SELECT * FROM listings WHERE approved='true' AND type = '${type}'`;
-    }
-
-    if (filter) {
-        q = `SELECT * FROM listings WHERE approved='true' ORDER BY ${filter.valueOf()} DESC`;
-        if(type && !query) {
-            q = `SELECT * FROM listings WHERE approved='true' AND (type = '${type}') ORDER BY ${filter.valueOf()} DESC`;
-        } else if(!type && query) {
-            q = `SELECT * FROM listings WHERE approved='true' AND (LOWER(title) LIKE '%${query}%' OR LOWER(address) LIKE '%${query}%) ORDER BY ${filter.valueOf()} DESC`;
-        }else if(type && query){
-            q = `SELECT * FROM listings WHERE type = '${type}' AND LOWER(title) LIKE '%${query}%' OR LOWER(address) LIKE '%${query}%' ORDER BY ${filter.valueOf()} DESC`;
-        }
-    }
-
-    if (filterAS) {
-        q = `SELECT * FROM listings WHERE approved='true' ORDER BY ${filterAS.valueOf()} ASC`;
-        if(type && !query) {
-            q = `SELECT * FROM listings WHERE (type = '${type}') ORDER BY ${filterAS.valueOf()} ASC`;
-        } else if(!type && query) {
-            q = `SELECT * FROM listings WHERE (LOWER(title) LIKE '%${query}%' OR LOWER(address) LIKE '%${query}%) ORDER BY ${filterAS.valueOf()} ASC`;
-        }else if(type && query){
-            q = `SELECT * FROM listings WHERE type = '${type}' AND LOWER(title) LIKE '%${query}%' OR LOWER(address) LIKE '%${query}%' ORDER BY ${filterAS.valueOf()} ASC`;
-        }
+        q = `SELECT * FROM product WHERE catagory = '${type}' AND (LOWER(name) LIKE '%${query}%' OR LOWER(discription) LIKE '%${query}%')`;
+    } else if (!type && query) {
+        q = `SELECT * FROM product WHERE LOWER(name) LIKE '%${query}%' OR LOWER(discription) LIKE '%${query}%'`;
+    } else if (type && !query) {
+        q = `SELECT * FROM product WHERE catagory = '${type}'`;
     }
     db.any(q)
         .then(data => {
             res.render('listings/list', {
-                listings: data,
+                product: data,
                 qCount: data.length,
                 type: type,
-                query: query,
-                filter: filter,
-                filterAS: filterAS,
-                q: q
+                query: query
             });
         })
         .catch(err => console.error(`Error fetching listings; ${err}`));
 };
 
 
+
+
+
+
+
+
+
+
+
+
 // controller for route: GET `/listings/:id`
 // `:id` is populated from the listing detail route in /routes/
 module.exports.detail = (req, res) => {
-    db.one(`SELECT * FROM listings WHERE id = '${req.params.id}' AND approved = 'true'`)
+    db.one(`SELECT * FROM listings WHERE id = '${req.params.id}'`)
         .then(data => {
             res.render('listings/detail', {
                 listing: data,
             });
         })
-        .catch(() => res.redirect('/account'));
+        .catch(err => res.send(`Error retrieving listing detail; ${err}`));
 };
 
 // controller for route; GET `/listings/add`
@@ -74,13 +55,7 @@ module.exports.add = (req, res) => {
 
 // controller for route; GET `/listings/distance`
 module.exports.distance = (req, res) => {
-    db.one(`SELECT * FROM listings WHERE id = '${req.params.id}' AND approved = 'true'`)
-        .then(data => {
-            res.render('distance', {
-                listing: data
-            });
-        })
-        .catch(() => res.redirect('/account'));
+    res.render('distance', {});
 };
 
 // controller for route; POST `/listings/add`
